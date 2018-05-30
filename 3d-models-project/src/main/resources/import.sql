@@ -1,0 +1,1 @@
+INSERT INTO images_3d (name, description, path, creation_date) VALUES('Name 1', 'This is a test description', 'C:\Users\gomezrod\Documents\GitHub\3d-models-project\3d-models-project\src\main\resources\images\batman.obj', '2018-01-01');
