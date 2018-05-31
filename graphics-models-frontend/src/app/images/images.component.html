@@ -1,0 +1,30 @@
+
+
+
+<div class="card border-primary mb-3">
+  <div class="card-header">Header</div>
+  <div class="card-body text-primary">
+    <h5 class="card-title">All 3D models</h5>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Path</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let image of images">
+          <td>{{ image.id }}</td>
+          <td>{{ image.name }}</td>
+          <td>{{ image.description }}</td>
+          <td>{{ image.path }}</td>
+          <td>{{ image.creationDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
