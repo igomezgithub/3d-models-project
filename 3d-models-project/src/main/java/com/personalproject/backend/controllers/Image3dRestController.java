@@ -19,7 +19,7 @@ public class Image3dRestController {
 	@Autowired
 	private IImage3dService image3dService;
 	
-	@GetMapping("/images3d")
+	@GetMapping("/images")
 	public List<Image3d> allImages() {
 		return image3dService.findAll();
 	}
