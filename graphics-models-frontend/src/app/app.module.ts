@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ImagesComponent } from './images/images.component';
 import { ImageService } from './images/image.service';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {path: '', redirectTo: '/images', pathMatch: 'full'},
@@ -22,6 +23,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
   providers: [ImageService],
