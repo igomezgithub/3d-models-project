@@ -8,10 +8,14 @@ import { ImagesComponent } from './images/images.component';
 import { ImageService } from './images/image.service';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { DetailsComponent } from './images/details/details.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path: '', redirectTo: '/images', pathMatch: 'full'},
-  {path: 'images', component: ImagesComponent}
+  {path: 'images', component: ImagesComponent},
+  {path: 'images/details', component: DetailsComponent},
+  {path: 'images/details/:id', component: DetailsComponent}
 ];
 
 @NgModule({
@@ -19,11 +23,13 @@ const routes: Routes = [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ImagesComponent
+    ImagesComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [ImageService],

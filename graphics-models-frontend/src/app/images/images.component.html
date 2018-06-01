@@ -1,11 +1,13 @@
 
 
 
-<div class="card border-primary mb-3">
+<div class="card border-primary my-3">
   <div class="card-header">Header</div>
   <div class="card-body text-primary">
     <h5 class="card-title">All 3D models</h5>
-
+    <div class="my-2 text-left">
+      <button class="btn btn-rounded btn-primary" type="button" [routerLink] = "['/images/details']">Create image</button>
+    </div>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -14,6 +16,8 @@
           <th>Description</th>
           <th>Path</th>
           <th>Date</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +27,12 @@
           <td>{{ image.description }}</td>
           <td>{{ image.path }}</td>
           <td>{{ image.creationDate }}</td>
+          <td>
+            <button type="button" name="edit" [routerLink]="['/images/details', image.id]" class="btn btn-primary">Edit</button>
+          </td>
+          <td>
+            <button type="button" name="delete" (click)='delete(image)' class="btn btn-danger">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
