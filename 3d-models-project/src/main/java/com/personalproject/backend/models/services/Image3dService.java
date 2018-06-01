@@ -19,4 +19,22 @@ public class Image3dService implements IImage3dService {
 	public List<Image3d> findAll() {
 		return (List<Image3d>) image3dDAO.findAll();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Image3d findById(Long id) {
+		return image3dDAO.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Image3d save(Image3d image) {
+		return image3dDAO.save(image);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		image3dDAO.deleteById(id);
+	}
 }

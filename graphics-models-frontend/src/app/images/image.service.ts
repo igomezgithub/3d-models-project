@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ImageService {
-  private urlEndPoint:string = 'http://localhost:8080/api/clientes';
+  private urlEndPoint:string = 'http://localhost:8080/api/images';
 
   constructor(private http: HttpClient) { }
 
