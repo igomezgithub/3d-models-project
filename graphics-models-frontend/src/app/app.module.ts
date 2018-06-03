@@ -10,12 +10,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { DetailsComponent } from './images/details/details.component';
 import { FormsModule } from '@angular/forms';
+import { LoadComponent } from './images/load/load.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/images', pathMatch: 'full'},
   {path: 'images', component: ImagesComponent},
   {path: 'images/details', component: DetailsComponent},
-  {path: 'images/details/:id', component: DetailsComponent}
+  {path: 'images/details/:id', component: DetailsComponent},
+  {path: 'images/load/:id', component: LoadComponent}
 ];
 
 @NgModule({
@@ -24,7 +26,8 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     ImagesComponent,
-    DetailsComponent
+    DetailsComponent,
+    LoadComponent
   ],
   imports: [
     BrowserModule,

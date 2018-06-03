@@ -40,4 +40,10 @@ export class ImageService {
   delete(id: number) : Observable<Image> {
       return this.http.delete<Image>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders})
   }
+
+  getGraphicModelById(id): Observable<Image> {
+    return this.http.get(`${this.urlEndPoint}/${id}`).pipe(
+      map( (response) => response as Image)
+    );
+  }
 }
