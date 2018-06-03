@@ -3,18 +3,22 @@ import { Image } from '../image';
 import { ImageService } from '../image.service';
 import { Router, ActivatedRoute } from '@angular/router';
 // import { THREE } from '../../../assets/js/three.min';
-// import * as THREE from 'three';
 import * as THREE from 'three';
+// import * as OBJLoader from 'three-obj-loader';
+
 import "../../../assets/js/EnableThreeLibrary";
 import "three/examples/js/controls/OrbitControls";
 import "three/examples/js/loaders/ColladaLoader";
+import "three/examples/js/loaders/MTLLoader";
+import "three/examples/js/loaders/OBJLoader";
 
 @Component({
   selector: 'app-load',
   templateUrl: './load.component.html',
   styleUrls: ['./load.component.css']
 })
-export class LoadComponent implements AfterViewInit {
+export class LoadComponent {
+// export class LoadComponent implements AfterViewInit {
   // private graphicModel: Image = new Image();
 
   private renderer: THREE.WebGLRenderer;
@@ -39,7 +43,7 @@ export class LoadComponent implements AfterViewInit {
 
 
   @ViewChild('canvas')
-     private canvasRef: ElementRef;
+  private canvasRef: ElementRef;
 
      constructor() {
          this.render = this.render.bind(this);
@@ -53,14 +57,33 @@ export class LoadComponent implements AfterViewInit {
      private createScene() {
          this.scene = new THREE.Scene();
          this.scene.add(new THREE.AxesHelper(200));
-         var loader = new THREE.ColladaLoader();
-         loader.load('assets/model/multimaterial.dae', this.onModelLoadingCompleted);
+
+         // var loader = new THREE.ColladaLoader();
+         var mtlloader = new THREE.MTLLoader();
+         mtlloader.setBaseUrl('assets/image/mtl/');
+         mtlloader.setPath('assets/image/mtl/');
+         // loader.load('assets/model/multimaterial.dae', this.onModelLoadingCompleted);
+         mtlloader.load('Wood Texture.mtl', this.onModelLoadingCompleted);
      }
 
-     private onModelLoadingCompleted(collada) {
-         var modelScene = collada.scene;
-         this.scene.add(modelScene);
-         this.render();
+     private onModelLoadingCompleted(materials) {
+       materials.preload();
+
+       var objLoader = new (THREE as any).OBJLoader();
+       // var objLoader = new THREE.OBJLoader();
+       objLoader.setMaterials(materials);
+       objLoader.setPath('assets/image/obj/');
+       objLoader.load('Wood Texture.obj', (object) => {
+              object.position.x = 0;
+              object.position.y = 0;
+              object.position.z = 0;
+              // object.scale.set(80,80,80);
+              object.rotation.x = 0.00;
+              object.rotation.y = 30.00;
+              object.rotation.z = 0.00;
+              this.scene.add(object);
+              this.render();
+        });
      }
 
      private createLight() {
@@ -112,7 +135,6 @@ export class LoadComponent implements AfterViewInit {
          let component: LoadComponent = this;
 
          (function render() {
-             //requestAnimationFrame(render);
              component.render();
          }());
      }
