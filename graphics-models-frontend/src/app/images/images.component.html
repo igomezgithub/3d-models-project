@@ -14,7 +14,8 @@
           <th>Id</th>
           <th>Name</th>
           <th>Description</th>
-          <th>Path</th>
+          <th>MTL Path</th>
+          <th>OBJ Path</th>
           <th>Date</th>
           <th>Edit</th>
           <th>Delete</th>
@@ -26,7 +27,8 @@
           <td>{{ image.id }}</td>
           <td>{{ image.name }}</td>
           <td>{{ image.description }}</td>
-          <td>{{ image.path }}</td>
+          <td>{{ image.mtlPath }}</td>
+          <td>{{ image.objPath }}</td>
           <td>{{ image.creationDate }}</td>
           <td>
             <button type="button" name="edit" [routerLink]="['/images/details', image.id]" class="btn btn-primary">Edit</button>

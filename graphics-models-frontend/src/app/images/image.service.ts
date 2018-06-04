@@ -42,6 +42,7 @@ export class ImageService {
   }
 
   getGraphicModelById(id): Observable<Image> {
+    console.log('GraphicModels logger (Image Service)--> URL: ' + this.urlEndPoint + '/' + id);
     return this.http.get(`${this.urlEndPoint}/${id}`).pipe(
       map( (response) => response as Image)
     );

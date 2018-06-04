@@ -48,7 +48,8 @@ public class Image3dRestController {
 		Image3d currentImage3d = image3dService.findById(id);
 		currentImage3d.setName(image.getName());
 		currentImage3d.setDescription(image.getDescription());
-		currentImage3d.setPath(image.getPath());
+		currentImage3d.setMtlPath(image.getMtlPath());
+		currentImage3d.setObjPath(image.getObjPath());
 		
 		return image3dService.save(currentImage3d);
 	}

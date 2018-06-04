@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { Image } from '../image';
 import { ImageService } from '../image.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,9 +17,8 @@ import "three/examples/js/loaders/OBJLoader";
   templateUrl: './load.component.html',
   styleUrls: ['./load.component.css']
 })
-export class LoadComponent {
-// export class LoadComponent implements AfterViewInit {
-  // private graphicModel: Image = new Image();
+export class LoadComponent implements AfterViewInit, OnDestroy {
+  public graphicModel: Image = new Image();
 
   private renderer: THREE.WebGLRenderer;
   private camera: THREE.PerspectiveCamera;
@@ -32,59 +31,87 @@ export class LoadComponent {
 
   public controls: THREE.OrbitControls;
 
-  // constructor(private imageService: ImageService,
-  //             private router: Router,
-  //             private activatedRoute: ActivatedRoute) {
-  // }
-
-  // ngOnInit() {
-  //   this.loadGraphicModel();
-  // }
-
-
   @ViewChild('canvas')
   private canvasRef: ElementRef;
 
-     constructor() {
-         this.render = this.render.bind(this);
-         this.onModelLoadingCompleted = this.onModelLoadingCompleted.bind(this);
-     }
+  constructor(private imageService: ImageService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
+    this.render = this.render.bind(this);
+    this.onModelLoadingCompleted = this.onModelLoadingCompleted.bind(this);
+  }
 
-     private get canvas(): HTMLCanvasElement {
-         return this.canvasRef.nativeElement;
-     }
+  ngOnDestroy() {
+    console.log('GraphicModels logger (Load Component) --> ngOnDestroy called!');
+  }
 
-     private createScene() {
-         this.scene = new THREE.Scene();
-         this.scene.add(new THREE.AxesHelper(200));
+  loadGraphicModel(): void {
+    this.activatedRoute.params.subscribe(params => {
+      let id = params['id'];
+      if(id) {
+        this.imageService.getGraphicModelById(id).subscribe(
+          (response) => {
+            this.graphicModel = response;
+            console.log('GraphicModels logger (Load Component) --> Id:' + this.graphicModel.name + ' Name: ' + this.graphicModel.name);
+            this.showScene();
+          }
+        )
+      }
+    });
+  }
 
-         // var loader = new THREE.ColladaLoader();
-         var mtlloader = new THREE.MTLLoader();
-         mtlloader.setBaseUrl('assets/image/mtl/');
-         mtlloader.setPath('assets/image/mtl/');
-         // loader.load('assets/model/multimaterial.dae', this.onModelLoadingCompleted);
-         mtlloader.load('Wood Texture.mtl', this.onModelLoadingCompleted);
-     }
+  /* LIFECYCLE */
+  ngAfterViewInit() {
+      this.loadGraphicModel();
+  }
 
-     private onModelLoadingCompleted(materials) {
-       materials.preload();
+  showScene() {
+      this.createScene();
+      this.createLight();
+      this.createCamera();
+      this.startRendering();
+      this.addControls();
+  }
 
-       var objLoader = new (THREE as any).OBJLoader();
-       // var objLoader = new THREE.OBJLoader();
-       objLoader.setMaterials(materials);
-       objLoader.setPath('assets/image/obj/');
-       objLoader.load('Wood Texture.obj', (object) => {
-              object.position.x = 0;
-              object.position.y = 0;
-              object.position.z = 0;
-              // object.scale.set(80,80,80);
-              object.rotation.x = 0.00;
-              object.rotation.y = 30.00;
-              object.rotation.z = 0.00;
-              this.scene.add(object);
-              this.render();
-        });
-     }
+
+  private get canvas(): HTMLCanvasElement {
+    return this.canvasRef.nativeElement;
+  }
+
+  private createScene() {
+    this.scene = new THREE.Scene();
+    this.scene.add(new THREE.AxesHelper(200));
+
+    // var loader = new THREE.ColladaLoader();
+    var mtlLoader = new THREE.MTLLoader();
+    // mtlloader.setBaseUrl('assets/image/mtl/');
+    // mtlloader.setPath('assets/image/mtl/');
+
+    console.log('GraphicModels logger (Load Component) --> MTL Path:' + this.graphicModel.mtlPath);
+    // console.log('Graphic Model logger: ' + this.graphicModel.name + ' ' + this.graphicModel.path);
+    mtlLoader.load(this.graphicModel.mtlPath, this.onModelLoadingCompleted);
+  }
+
+  private onModelLoadingCompleted(materials) {
+    materials.preload();
+    var objLoader = new (THREE as any).OBJLoader();
+    // var objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    // objLoader.setPath('assets/image/obj/');
+
+    console.log('GraphicModels logger (Load Component) --> OBJ Path:' + this.graphicModel.objPath);
+    objLoader.load(this.graphicModel.objPath, (object) => {
+        object.position.x = 0;
+        object.position.y = 0;
+        object.position.z = 0;
+        // object.scale.set(80,80,80);
+        object.rotation.x = 0.00;
+        object.rotation.y = 30.00;
+        object.rotation.z = 0.00;
+        this.scene.add(object);
+        this.render();
+    });
+  }
 
      private createLight() {
          var light = new THREE.PointLight(0xffffff, 1, 1000);
@@ -206,28 +233,4 @@ export class LoadComponent {
          public onKeyPress(event: KeyboardEvent) {
              console.log("onKeyPress: " + event.key);
          }
-
-
-
-     /* LIFECYCLE */
-         ngAfterViewInit() {
-             this.createScene();
-             this.createLight();
-             this.createCamera();
-             this.startRendering();
-             this.addControls();
-         }
-
-
-
-  // loadGraphicModel(): void {
-  //   this.activatedRoute.params.subscribe(params => {
-  //     let id = params['id']
-  //     if(id) {
-  //       this.imageService.getGraphicModelById(id).subscribe(
-  //         (response) => this.graphicModel = response
-  //       )
-  //     }
-  //   });
-  // }
 }

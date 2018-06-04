@@ -51,9 +51,16 @@ public class Image3d implements Serializable{
 	private String description;
 	
 	/**
-	 * The image path
+	 * The .MTL image path
 	 */
-	private String path;
+	@Column(name="mtl_path")
+	private String mtlPath;
+	
+	/**
+	 * The .OBJ image path
+	 */
+	@Column(name="obj_path")
+	private String objPath;
 	
 	/**
 	 * The date of the image creation 
@@ -114,17 +121,31 @@ public class Image3d implements Serializable{
 	}
 
 	/**
-	 * @return current path
+	 * @return current .MTL file path
 	 */
-	public String getPath() {
-		return path;
+	public String getMtlPath() {
+		return mtlPath;
+	}
+	
+	/**
+	 * @return current .OBJ file path
+	 */
+	public String getObjPath() {
+		return objPath;
 	}
 
 	/**
-	 * @param path path of the image
+	 * @param path .MTL path of the image
 	 */
-	public void setPath(String path) {
-		this.path = path;
+	public void setMtlPath(String mtlPath) {
+		this.mtlPath = mtlPath;
+	}
+	
+	/**
+	 * @param path .OBJ path of the image
+	 */
+	public void setObjPath(String objPath) {
+		this.objPath = objPath;
 	}
 
 	/**

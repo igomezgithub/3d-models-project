@@ -59,4 +59,8 @@ export class DetailsComponent implements OnInit {
       }
     );
   }
+
+  public onMouseClick(event: MouseEvent) {
+      console.log('GraphicModels logger (Details Component)--> onMouseClick');
+  }
 }

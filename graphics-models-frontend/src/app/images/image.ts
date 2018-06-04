@@ -2,6 +2,7 @@ export class Image {
   id: number;
   name: string;
   description: string;
-  path: string;
+  mtlPath: string;
+  objPath: string;
   creationDate: string;
 }
