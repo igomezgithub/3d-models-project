@@ -1,0 +1,43 @@
+<div class="card bg-dark text-white my-3" (click)="onMouseClick($event)">
+  <div class="card-header">{{ title }}</div>
+  <div class="card-body">
+    <form>
+      <div class="form-group row">
+        <label for="name" class="col-form-label col-sm-2">Nombre</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="image.name" name="name">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="description" class="col-form-label col-sm-2">Description</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="image.description" name="description">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="mtlPath" class="col-form-label col-sm-2">MTL Path</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="image.mtlPath" name="mtlPath">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="objPath" class="col-form-label col-sm-2">OBJ Path</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="image.objPath" name="objPath">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!image.id else editTemplate">Create</button>
+          <ng-template #editTemplate>
+            <button class="btn btn-primary" role="button" (click)='update()'>Edit</button>
+          </ng-template>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
