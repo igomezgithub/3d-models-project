@@ -1,6 +1,14 @@
 <div class="card bg-dark text-white my-3" (click)="onMouseClick($event)">
   <div class="card-header">{{ title }}</div>
   <div class="card-body">
+    <div *ngIf="currentFileUpload" class="progress">
+    	<div class="progress-bar progress-bar-info progress-bar-striped"
+    		role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+    		aria-valuemin="0" aria-valuemax="100"
+    		[ngStyle]="{width:progress.percentage+'%'}">
+    		{{progress.percentage}}%</div>
+    </div>
+
     <form>
       <div class="form-group row">
         <label for="name" class="col-form-label col-sm-2">Nombre</label>
@@ -16,17 +24,26 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row" *ngIf="!image.id">
         <label for="mtlPath" class="col-form-label col-sm-2">MTL Path</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" [(ngModel)]="image.mtlPath" name="mtlPath">
+          <label class="btn btn-default">
+	          <input type="file" (change)="selectFile($event)">
+          </label>
+          <button class="btn btn-success" [disabled]="!selectedFiles">Upload</button>
+          <!-- <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button> -->
+          <!-- <input type="file" class="form-control" [(ngModel)]="image.mtljPath" name="mtlPath"> -->
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row" *ngIf="!image.id">
         <label for="objPath" class="col-form-label col-sm-2">OBJ Path</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" [(ngModel)]="image.objPath" name="objPath">
+          <label class="btn btn-default">
+	          <input type="file" (change)="selectFile($event)">
+          </label>
+          <button class="btn btn-success" [disabled]="!selectedFiles">Upload</button>
+          <!-- <input type="text" class="form-control" [(ngModel)]="image.objPath" name="objPath"> -->
         </div>
       </div>
 

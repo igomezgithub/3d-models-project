@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { HttpEvent } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class ImageService {
     );
   }
 
-  crate(image: Image) : Observable<Image> {
+  create(image: Image) : Observable<Image> {
     return this.http.post(this.urlEndPoint, image, {headers: this.httpHeaders}).pipe(
       map( (response) => response as Image)
     );
@@ -47,4 +49,25 @@ export class ImageService {
       map( (response) => response as Image)
     );
   }
+
+  pushFileToStorage(file): Observable<File> {
+      console.log('GraphicModels logger (pushFileToStorage)--> URL: ' + this.urlEndPoint);
+      return this.http.post(this.urlEndPoint, file, {headers: this.httpHeaders}).pipe(
+        map( (response) => response as File)
+      );
+    }
+
+  // pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+  //     let formdata: FormData = new FormData();
+  //
+  //     formdata.append('file', file);
+  //
+  //     console.log('GraphicModels logger (pushFileToStorage)--> URL: ' + this.urlEndPoint);
+  //     const req = new HttpRequest('POST', `${this.urlEndPoint}/upload/mtl`, formdata, {
+  //       reportProgress: true,
+  //       responseType: 'text'
+  //     });
+  //
+  //     return this.http.request(req);
+  //   }
 }
